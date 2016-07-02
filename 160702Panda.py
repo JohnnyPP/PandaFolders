@@ -19,7 +19,9 @@ path = os.path.dirname(sys.argv[0])
 dataPath = '/data'
 dataFolder = path + dataPath
 dataFolders = os.listdir(dataFolder)
-print 'Subfolders in data folder:'
+print 'Script path: ' + path
+print 'Data path: ' + dataFolder
+print 'Subfolders in data path:'
 
 for i, folder in enumerate(dataFolders):
     print(i, folder)
@@ -111,4 +113,3 @@ for i in range(0, len(yLabel)):
     plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
     plt.ylabel(yLabel[i])
     plt.show()
-
