@@ -26,21 +26,22 @@ for i, folder in enumerate(dataFolders):
 
 dataForAnalysis = []
 
-dfThickness=allDataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
-dfThickness['rowMedian'] = dfThickness.median(axis=1)
-dataForAnalysis.append(dfThickness)
-
-dfTopWidth=allDataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
-dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
-dataForAnalysis.append(dfTopWidth)
-
-dfMiddleWidth=allDataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
-dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
-dataForAnalysis.append(dfMiddleWidth)
-
-dfBottomWidth=allDataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
-dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
-dataForAnalysis.append(dfBottomWidth)
+for dataFolder in allDataFolders:
+    dfThickness=dataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
+    dfThickness['rowMedian'] = dfThickness.median(axis=1)
+    dataForAnalysis.append(dfThickness)
+    
+    dfTopWidth=dataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
+    dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
+    dataForAnalysis.append(dfTopWidth)
+    
+    dfMiddleWidth=dataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
+    dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
+    dataForAnalysis.append(dfMiddleWidth)
+    
+    dfBottomWidth=dataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
+    dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
+    dataForAnalysis.append(dfBottomWidth)
 
 medianHigh = []
 medianLow = []
@@ -50,7 +51,7 @@ def medianNumPy(lst):
     
 def plotColors():
     x = np.arange(10)
-    ys = [i+x+(i*x)**2 for i in range(10)]
+    ys = [i+x+(i*x)**2 for i in range(15)]
     return cm.rainbow(np.linspace(0, 1, len(ys)))
 
 for data in dataForAnalysis:
