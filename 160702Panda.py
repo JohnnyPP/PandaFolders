@@ -6,7 +6,15 @@ import glob
 import sys, os
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-           
+
+def medianNumPy(lst):
+    return np.median(np.array(lst))
+    
+def plotColors():
+    x = np.arange(10)
+    ys = [i+x+(i*x)**2 for i in range(15)]
+    return cm.rainbow(np.linspace(0, 1, len(ys)))
+
 path = os.path.dirname(sys.argv[0]) 
 dataPath = '/data'
 dataFolder = path + dataPath
@@ -25,8 +33,10 @@ for i, folder in enumerate(dataFolders):
     allDataFolders.append(allDataFolder)
 
 dataForAnalysis = []
+dataInFolders = []
 
 for dataFolder in allDataFolders:
+    dataForAnalysis = []
     dfThickness=dataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
     dfThickness['rowMedian'] = dfThickness.median(axis=1)
     dataForAnalysis.append(dfThickness)
@@ -42,38 +52,33 @@ for dataFolder in allDataFolders:
     dfBottomWidth=dataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
     dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
     dataForAnalysis.append(dfBottomWidth)
+    
+    dataInFolders.append(dataForAnalysis)
 
 medianHigh = []
 medianLow = []
 
-def medianNumPy(lst):
-    return np.median(np.array(lst))
+for dataInFolder in dataInFolders:
+    for data in dataInFolder:
+        medianSliced = []
+        medianSlicedLow = []    # this stores first 4 values (approx 40)
+        medianSlicedHigh = []   # this stores next 4 values (approx 60)
+        median4High = []
+        median4Low = []
     
-def plotColors():
-    x = np.arange(10)
-    ys = [i+x+(i*x)**2 for i in range(15)]
-    return cm.rainbow(np.linspace(0, 1, len(ys)))
-
-for data in dataForAnalysis:
-    medianSliced = []
-    medianSlicedLow = []    # this stores first 4 values (approx 40)
-    medianSlicedHigh = []   # this stores next 4 values (approx 60)
-    median4High = []
-    median4Low = []
-
-    for i in xrange(0,len(data['rowMedian']),4):
-        medianSliced.append(data['rowMedian'][i:4+i])
-    
-    for i in range(0,len(medianSliced)):
-        if i % 2 == 0:
-            medianSlicedLow.append(medianSliced[i])
-            median4Low.append(medianNumPy(medianSliced[i]))
-        else:
-            medianSlicedHigh.append(medianSliced[i])
-            median4High.append(medianNumPy(medianSliced[i]))
-    
-    medianLow.append(median4Low)
-    medianHigh.append(median4High)
+        for i in xrange(0,len(data['rowMedian']),4):
+            medianSliced.append(data['rowMedian'][i:4+i])
+        
+        for i in range(0,len(medianSliced)):
+            if i % 2 == 0:
+                medianSlicedLow.append(medianSliced[i])
+                median4Low.append(medianNumPy(medianSliced[i]))
+            else:
+                medianSlicedHigh.append(medianSliced[i])
+                median4High.append(medianNumPy(medianSliced[i]))
+        
+        medianLow.append(median4Low)
+        medianHigh.append(median4High)
 
 dataToPlot = []
 
