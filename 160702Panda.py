@@ -13,27 +13,28 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt 
 from pylab import plot, show, savefig, xlim, figure, \
                 hold, ylim, legend, boxplot, setp, axes
-          
-          
+           
 path = os.path.dirname(sys.argv[0]) 
 dataPath = '/data'
 dataFolder = path + dataPath
-
-
 dataFolders = os.listdir(dataFolder)
-numberOfSubdirs = len(dataFolders)
-dataList = []
 
-for folder in dataFolders:
+dataList = []
+allDataFolders = []
+
+for i, folder in enumerate(dataFolders):
     dataFiles = glob.glob(dataFolder + "/" + folder + "/*.csv")
     for dataFile in dataFiles:
-        df = pd.read_csv(dataFile,index_col=None, header=0)
-        dataList.append(df)
-        
-    
-MischD = pd.concat(dataList)
+        dataFrame = pd.read_csv(dataFile, index_col=None, header=0)
+        dataList.append(dataFrame)
+    allDataFolder = pd.concat(dataList)
+    allDataFolders.append(allDataFolder)
+    del dataList[:]
 
 
+
+#for idx, val in enumerate(ints):
+#    print(idx, val)
 
 
 def medianNumPy(lst):
