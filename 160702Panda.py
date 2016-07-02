@@ -100,13 +100,15 @@ eThickness, eTopWidth, eMiddleWidth, eBottomWidth = range(0, 4)
 yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width']
 
 # resultsList[index of the folder name][index of the faeture to display]
-dataToPlot = [resultsMedianLow[0][eThickness], resultsMedianLow[1][eThickness]]
 
-box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
+for i in range(0, len(yLabel)):
+    dataToPlot = [resultsMedianLow[0][i], resultsMedianLow[1][i]]
+    box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
+    
+    for patch, color in zip(box['boxes'], plotColors()):
+        patch.set_facecolor(color)
+    
+    plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
+    plt.ylabel(yLabel[i])
+    plt.show()
 
-for patch, color in zip(box['boxes'], plotColors()):
-    patch.set_facecolor(color)
-
-plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
-plt.ylabel(yLabel[eThickness])
-plt.show()
