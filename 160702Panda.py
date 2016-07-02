@@ -31,51 +31,53 @@ for i, folder in enumerate(dataFolders):
     allDataFolders.append(allDataFolder)
     del dataList[:]
 
+dataForAnalysis = []
+
+dfThickness=allDataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
+dfThickness['rowMedian'] = dfThickness.median(axis=1)
+dataForAnalysis.append(dfThickness)
+
+dfTopWidth=allDataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
+dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
+dataForAnalysis.append(dfTopWidth)
+
+dfMiddleWidth=allDataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
+dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
+dataForAnalysis.append(dfMiddleWidth)
+
+dfBottomWidth=allDataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
+dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
+dataForAnalysis.append(dfBottomWidth)
 
 
-#for idx, val in enumerate(ints):
-#    print(idx, val)
+
+
+
+
+median = dfTopWidth['rowMedian']
+
+
+medianSliced = []
+medianSlicedLow = []    # this stores first 4 values (approx 40)
+medianSlicedHigh = []   # this stores next 4 values (approx 60)
+median4High = []
+median4Low = []
 
 
 def medianNumPy(lst):
     return numpy.median(numpy.array(lst))
 
 
+for i in xrange(0,len(median),4):
+    medianSliced.append(median[i:4+i])
 
-#Thk=MischD.ix[:,'T1_Thk(um)':'T4_Thk(um)']
-#Thk['median'] = Thk.median(axis=1)
-#
-#Twid=MischD.ix[:,'T1_TW(um)':'T4_TW(um)']
-#Twid['median'] = Twid.median(axis=1)
-#
-#middleW=MischD.ix[:,'T1_MW(um)':'T4_MW(um)']
-#middleW['median'] = middleW.median(axis=1)
-#
-#bottomW=MischD.ix[:,'T1_BW(um)':'T4_BW(um)']
-#bottomW['median'] = bottomW.median(axis=1)
-#
-#median = Twid['median']
-#
-#medianLenght = len(median)
-#
-#medianSliced = []
-#medianSlicedLow = []    # this stores first 4 values (approx 40)
-#medianSlicedHigh = []   # this stores next 4 values (approx 60)
-#median4High = []
-#median4Low = []
-#
-#
-#
-#for i in xrange(0,medianLenght,4):
-#    medianSliced.append(median[i:4+i])
-#
-#for i in range(0,len(medianSliced)):
-#    if i % 2 == 0:
-#        medianSlicedLow.append(medianSliced[i])
-#        median4Low.append(medianNumPy(medianSliced[i]))
-#    else:
-#        medianSlicedHigh.append(medianSliced[i])
-#        median4High.append(medianNumPy(medianSliced[i]))
+for i in range(0,len(medianSliced)):
+    if i % 2 == 0:
+        medianSlicedLow.append(medianSliced[i])
+        median4Low.append(medianNumPy(medianSliced[i]))
+    else:
+        medianSlicedHigh.append(medianSliced[i])
+        median4High.append(medianNumPy(medianSliced[i]))
         
         
         
