@@ -104,6 +104,7 @@ yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width']
 
 for i in range(0, len(yLabel)):
     dataToPlot = [resultsMedianLow[0][i], resultsMedianLow[1][i]]
+    plt.figure()
     box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
     
     for patch, color in zip(box['boxes'], plotColors()):
@@ -111,5 +112,5 @@ for i in range(0, len(yLabel)):
     
     plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
     plt.ylabel(yLabel[i])
-    plt.figure()
+
 plt.show()
