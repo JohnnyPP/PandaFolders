@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 import pandas as pd
 import glob
@@ -15,10 +13,16 @@ def plotColors():
     ys = [i+x+(i*x)**2 for i in range(15)]
     return cm.rainbow(np.linspace(0, 1, len(ys)))
 
+# Readng data
+
 path = os.path.dirname(sys.argv[0]) 
 dataPath = '/data'
 dataFolder = path + dataPath
 dataFolders = os.listdir(dataFolder)
+print 'Subfolders in data folder:'
+
+for i, folder in enumerate(dataFolders):
+    print(i, folder)
 
 dataList = []
 allDataFolders = []
@@ -55,10 +59,12 @@ for dataFolder in allDataFolders:
     
     dataInFolders.append(dataForAnalysis)
 
+# Processing
+
 medianHigh = []
 medianLow = []
-folderMedianLow = []
-folderMedianHigh = []
+resultsMedianLow = []
+resultsMedianHigh = []
 
 for dataInFolder in dataInFolders:
     medianLow = []
@@ -85,52 +91,22 @@ for dataInFolder in dataInFolders:
         medianLow.append(median4Low)
         medianHigh.append(median4High)
     
-    folderMedianLow.append(medianLow)
-    folderMedianHigh.append(medianHigh)
+    resultsMedianLow.append(medianLow)
+    resultsMedianHigh.append(medianHigh)
 
-dataToPlot = [folderMedianLow[0][1], folderMedianLow[1][1]]
+# Plotting
 
-#for result in medianLow:
-#    dataToPlot.append(result)
+eThickness, eTopWidth, eMiddleWidth, eBottomWidth = range(0, 4)
+yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width']
+
+# resultsList[index of the folder name][index of the faeture to display]
+dataToPlot = [resultsMedianLow[0][eThickness], resultsMedianLow[1][eThickness]]
 
 box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
 
 for patch, color in zip(box['boxes'], plotColors()):
     patch.set_facecolor(color)
 
+plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
+plt.ylabel(yLabel[eThickness])
 plt.show()
-
-
-#fig = plt.figure(1, figsize=(9, 6))
-#ax = fig.add_subplot(111)
-#bp = ax.boxplot(data_to_plot)
-#bp = ax.boxplot(data_to_plot, patch_artist=True)
-### change outline color, fill color and linewidth of the boxes
-#for box in bp['boxes']:
-#    # change outline color
-#    box.set( color='plum', linewidth=2)
-#    # change fill color
-#    box.set( facecolor = 'plum' )
-#    
-#for box in bp['boxes']:
-#    
-#    ## change color and linewidth of the whiskers
-#    for whisker in bp['whiskers']:
-#        whisker.set(color='red', linewidth=2)
-#
-### change color and linewidth of the caps
-#for cap in bp['caps']:
-#    cap.set(color='green', linewidth=2)
-#    ## change color and linewidth of the medians
-#for median in bp['medians']:
-#    median.set(color='#b2df8a', linewidth=2)
-#
-#
-### change the style of fliers and their fill
-#for flier in bp['fliers']:
-#    flier.set(marker='o', color='#e7298a', alpha=0.5)
-#    ## Custom x-axis labels
-#ax.set_xticklabels(['Thickness', 'TopWidth', 'MiddleWidth', 'BottomWidth'])
-### Remove top axes and right axes ticks
-#ax.get_xaxis().tick_bottom()
-#ax.get_yaxis().tick_left()
