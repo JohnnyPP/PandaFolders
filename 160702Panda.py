@@ -48,7 +48,7 @@ medianLow = []
 def medianNumPy(lst):
     return np.median(np.array(lst))
     
-def generatePlotColors():
+def plotColors():
     x = np.arange(10)
     ys = [i+x+(i*x)**2 for i in range(10)]
     return cm.rainbow(np.linspace(0, 1, len(ys)))
@@ -81,12 +81,10 @@ for result in medianLow:
 
 box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
 
-for patch, color in zip(box['boxes'], generatePlotColors()):
+for patch, color in zip(box['boxes'], plotColors()):
     patch.set_facecolor(color)
 
 plt.show()
-
-
 
 
 #fig = plt.figure(1, figsize=(9, 6))
