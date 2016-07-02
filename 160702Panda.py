@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
 
-This is a temporary script file.
-"""
-
-import numpy 
+import numpy as np
 import pandas as pd
 import glob
 import sys, os
-import matplotlib as mpl 
-import matplotlib.pyplot as plt 
-from pylab import plot, show, savefig, xlim, figure, \
-                hold, ylim, legend, boxplot, setp, axes
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
            
 path = os.path.dirname(sys.argv[0]) 
 dataPath = '/data'
@@ -30,7 +23,6 @@ for i, folder in enumerate(dataFolders):
         dataList.append(dataFrame)
     allDataFolder = pd.concat(dataList)
     allDataFolders.append(allDataFolder)
-
 
 dataForAnalysis = []
 
@@ -54,7 +46,12 @@ medianHigh = []
 medianLow = []
 
 def medianNumPy(lst):
-    return numpy.median(numpy.array(lst))
+    return np.median(np.array(lst))
+    
+def generatePlotColors():
+    x = np.arange(10)
+    ys = [i+x+(i*x)**2 for i in range(10)]
+    return cm.rainbow(np.linspace(0, 1, len(ys)))
 
 for data in dataForAnalysis:
     medianSliced = []
@@ -76,22 +73,22 @@ for data in dataForAnalysis:
     
     medianLow.append(median4Low)
     medianHigh.append(median4High)
-    
+
+dataToPlot = []
+
+for result in medianLow:
+    dataToPlot.append(result)
+
+box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
+
+for patch, color in zip(box['boxes'], generatePlotColors()):
+    patch.set_facecolor(color)
+
+plt.show()
 
 
 
-        
-        
-        
-        
-#ta = np.concatenate((median4High, median4Low), 0)
 
-
-
-
-
-#data_to_plot = [median4Low,median4High,median4Low]
-#
 #fig = plt.figure(1, figsize=(9, 6))
 #ax = fig.add_subplot(111)
 #bp = ax.boxplot(data_to_plot)
@@ -106,8 +103,8 @@ for data in dataForAnalysis:
 #for box in bp['boxes']:
 #    
 #    ## change color and linewidth of the whiskers
-# for whisker in bp['whiskers']:
-#    whisker.set(color='red', linewidth=2)
+#    for whisker in bp['whiskers']:
+#        whisker.set(color='red', linewidth=2)
 #
 ### change color and linewidth of the caps
 #for cap in bp['caps']:
@@ -121,7 +118,7 @@ for data in dataForAnalysis:
 #for flier in bp['fliers']:
 #    flier.set(marker='o', color='#e7298a', alpha=0.5)
 #    ## Custom x-axis labels
-#ax.set_xticklabels(['2Mil', '3Mil'])
+#ax.set_xticklabels(['Thickness', 'TopWidth', 'MiddleWidth', 'BottomWidth'])
 ### Remove top axes and right axes ticks
 #ax.get_xaxis().tick_bottom()
 #ax.get_yaxis().tick_left()
