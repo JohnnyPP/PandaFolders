@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import glob
-import sys, os
+import os
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
@@ -14,8 +14,7 @@ def plotColors():
     return cm.rainbow(np.linspace(0, 1, len(ys)))
 
 # Readng data
-
-path = os.path.dirname(sys.argv[0]) 
+path = os.path.abspath(os.path.dirname(__file__))
 dataPath = '/data'
 dataFolder = path + dataPath
 dataFolders = os.listdir(dataFolder)
@@ -112,4 +111,5 @@ for i in range(0, len(yLabel)):
     
     plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
     plt.ylabel(yLabel[i])
-    plt.show()
+    plt.figure()
+plt.show()
