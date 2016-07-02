@@ -57,8 +57,13 @@ for dataFolder in allDataFolders:
 
 medianHigh = []
 medianLow = []
+folderMedianLow = []
+folderMedianHigh = []
 
 for dataInFolder in dataInFolders:
+    medianLow = []
+    medianHigh = []
+    
     for data in dataInFolder:
         medianSliced = []
         medianSlicedLow = []    # this stores first 4 values (approx 40)
@@ -79,11 +84,14 @@ for dataInFolder in dataInFolders:
         
         medianLow.append(median4Low)
         medianHigh.append(median4High)
+    
+    folderMedianLow.append(medianLow)
+    folderMedianHigh.append(medianHigh)
 
-dataToPlot = []
+dataToPlot = [folderMedianLow[0][1], folderMedianLow[1][1]]
 
-for result in medianLow:
-    dataToPlot.append(result)
+#for result in medianLow:
+#    dataToPlot.append(result)
 
 box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
 
