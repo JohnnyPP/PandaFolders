@@ -48,18 +48,15 @@ for dataFolder in allDataFolders:
     dfThickness['rowMedian'] = dfThickness.median(axis=1)
     etchingFactor['Thickness'] = dfThickness.median(axis=1)
     dataForAnalysis.append(dfThickness)
-
     
     dfTopWidth=dataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
     dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
     etchingFactor['TopWidth'] = dfTopWidth.median(axis=1)
     dataForAnalysis.append(dfTopWidth)
-
     
     dfMiddleWidth=dataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
     dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
     dataForAnalysis.append(dfMiddleWidth)
-
     
     dfBottomWidth=dataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
     dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
