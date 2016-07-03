@@ -14,6 +14,7 @@ def plotColors():
     return cm.rainbow(np.linspace(0, 1, len(ys)))
 
 # Readng data
+
 path = os.path.abspath(os.path.dirname(__file__))
 dataPath = '/data'
 dataFolder = path + dataPath
@@ -39,27 +40,38 @@ for i, folder in enumerate(dataFolders):
 
 dataForAnalysis = []
 dataInFolders = []
+etchingFactor = pd.DataFrame(columns=['Thickness', 'BottomWidth', 'TopWidth', 'rowMedian'])
 
 for dataFolder in allDataFolders:
     dataForAnalysis = []
     dfThickness=dataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
     dfThickness['rowMedian'] = dfThickness.median(axis=1)
+    etchingFactor['Thickness'] = dfThickness.median(axis=1)
     dataForAnalysis.append(dfThickness)
+
     
     dfTopWidth=dataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
     dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
+    etchingFactor['TopWidth'] = dfTopWidth.median(axis=1)
     dataForAnalysis.append(dfTopWidth)
+
     
     dfMiddleWidth=dataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
     dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
     dataForAnalysis.append(dfMiddleWidth)
+
     
     dfBottomWidth=dataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
     dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
+    etchingFactor['BottomWidth'] = dfBottomWidth.median(axis=1)
     dataForAnalysis.append(dfBottomWidth)
-    
-    dataInFolders.append(dataForAnalysis)
 
+    # etchingFactor = 2*Thickness/(BottomWidth - TopWidth)
+    etchingFactor['rowMedian'] = 2*etchingFactor['Thickness']/(etchingFactor['BottomWidth'] - etchingFactor['TopWidth'])
+
+    dataForAnalysis.append(etchingFactor)   
+    dataInFolders.append(dataForAnalysis)
+    
 # Processing
 
 medianHigh = []
@@ -97,8 +109,8 @@ for dataInFolder in dataInFolders:
 
 # Plotting
 
-eThickness, eTopWidth, eMiddleWidth, eBottomWidth = range(0, 4)
-yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width']
+eThickness, eTopWidth, eMiddleWidth, eBottomWidth, eEtchingFactor= range(0, 5)
+yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width', 'Etching factor']
 
 # resultsList[index of the folder name][index of the faeture to display]
 
