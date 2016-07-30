@@ -42,32 +42,32 @@ for i, folder in enumerate(dataFolders):
 dataForAnalysis = []
 dataInFolders = []
 etchingFactor = pd.DataFrame(columns=['Thickness', 'BottomWidth', 'TopWidth', 'rowMedian'])
+etching = []
 
 for dataFolder in allDataFolders:
     dataForAnalysis = []
+
     dfThickness=dataFolder.ix[:,'T1_Thk(um)':'T4_Thk(um)']
     dfThickness['rowMedian'] = dfThickness.median(axis=1)
-    etchingFactor['Thickness'] = dfThickness.median(axis=1)
-    dataForAnalysis.append(dfThickness)
     
     dfTopWidth=dataFolder.ix[:,'T1_TW(um)':'T4_TW(um)']
     dfTopWidth['rowMedian'] = dfTopWidth.median(axis=1)
-    etchingFactor['TopWidth'] = dfTopWidth.median(axis=1)
-    dataForAnalysis.append(dfTopWidth)
-    
+
     dfMiddleWidth=dataFolder.ix[:,'T1_MW(um)':'T4_MW(um)']
     dfMiddleWidth['rowMedian'] = dfMiddleWidth.median(axis=1)
-    dataForAnalysis.append(dfMiddleWidth)
-    
+
     dfBottomWidth=dataFolder.ix[:,'T1_BW(um)':'T4_BW(um)']
     dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
-    etchingFactor['BottomWidth'] = dfBottomWidth.median(axis=1)
-    dataForAnalysis.append(dfBottomWidth)
 
     # etchingFactor = 2*Thickness/(BottomWidth - TopWidth)
-    etchingFactor['rowMedian'] = 2*etchingFactor['Thickness']/(etchingFactor['BottomWidth'] - etchingFactor['TopWidth'])
+    etching = 2*dfThickness['rowMedian']/(dfBottomWidth['rowMedian']-dfTopWidth['rowMedian'])
 
-    dataForAnalysis.append(etchingFactor)   
+    dataForAnalysis.append(dfThickness['rowMedian'].values.tolist())
+    dataForAnalysis.append(dfTopWidth['rowMedian'].values.tolist())
+    dataForAnalysis.append(dfMiddleWidth['rowMedian'].values.tolist())
+    dataForAnalysis.append(dfBottomWidth['rowMedian'].values.tolist())
+    dataForAnalysis.append(etching.tolist())   
+    
     dataInFolders.append(dataForAnalysis)
     
 # Processing
@@ -88,8 +88,8 @@ for dataInFolder in dataInFolders:
         median4High = []
         median4Low = []
     
-        for i in xrange(0,len(data['rowMedian']),4):
-            medianSliced.append(data['rowMedian'][i:4+i])
+        for i in xrange(0,len(data),4):
+            medianSliced.append(data[i:4+i])
         
         for i in range(0,len(medianSliced)):
             if i % 2 == 0:
