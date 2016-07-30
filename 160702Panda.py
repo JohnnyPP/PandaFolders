@@ -41,8 +41,7 @@ for i, folder in enumerate(dataFolders):
 
 dataForAnalysis = []
 dataInFolders = []
-etchingFactor = pd.DataFrame(columns=['Thickness', 'BottomWidth', 'TopWidth', 'rowMedian'])
-etching = []
+etchingFactor = []
 
 for dataFolder in allDataFolders:
     dataForAnalysis = []
@@ -60,13 +59,13 @@ for dataFolder in allDataFolders:
     dfBottomWidth['rowMedian'] = dfBottomWidth.median(axis=1)
 
     # etchingFactor = 2*Thickness/(BottomWidth - TopWidth)
-    etching = 2*dfThickness['rowMedian']/(dfBottomWidth['rowMedian']-dfTopWidth['rowMedian'])
+    etchingFactor = 2*dfThickness['rowMedian']/(dfBottomWidth['rowMedian']-dfTopWidth['rowMedian'])
 
     dataForAnalysis.append(dfThickness['rowMedian'].values.tolist())
     dataForAnalysis.append(dfTopWidth['rowMedian'].values.tolist())
     dataForAnalysis.append(dfMiddleWidth['rowMedian'].values.tolist())
     dataForAnalysis.append(dfBottomWidth['rowMedian'].values.tolist())
-    dataForAnalysis.append(etching.tolist())   
+    dataForAnalysis.append(etchingFactor.tolist())   
     
     dataInFolders.append(dataForAnalysis)
     
