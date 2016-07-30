@@ -4,6 +4,7 @@ import glob
 import os
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import json
 
 def medianNumPy(lst):
     return np.median(np.array(lst))
@@ -109,17 +110,22 @@ for dataInFolder in dataInFolders:
 eThickness, eTopWidth, eMiddleWidth, eBottomWidth, eEtchingFactor= range(0, 5)
 yLabel = ['Thickness', 'Top width', 'Middle width', 'Bottom width', 'Etching factor']
 
+print resultsMedianLow
+
+with open('median4High.json', 'w') as f:
+     json.dump(resultsMedianHigh, f)
+
 # resultsList[index of the folder name][index of the faeture to display]
 
 for i in range(0, len(yLabel)):
-    dataToPlot = [resultsMedianLow[0][i], resultsMedianLow[1][i]]
+    dataToPlot = [resultsMedianHigh[0][i], resultsMedianHigh[1][i], resultsMedianHigh[2][i]]
     plt.figure()
     box = plt.boxplot(dataToPlot, notch=True, patch_artist=True)
     
     for patch, color in zip(box['boxes'], plotColors()):
         patch.set_facecolor(color)
     
-    plt.xticks([1, 2], [dataFolders[0], dataFolders[1]])
+    plt.xticks([1, 2, 3], [dataFolders[0], dataFolders[1], dataFolders[2]])
     plt.ylabel(yLabel[i])
 
 plt.show()
