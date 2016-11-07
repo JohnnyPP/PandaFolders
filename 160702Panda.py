@@ -73,12 +73,15 @@ for dataFolder in allDataFolders:
 
 medianHigh = []
 medianLow = []
+medianSha = []
 resultsMedianLow = []
 resultsMedianHigh = []
+resultsMedian = []
 
 for dataInFolder in dataInFolders:
     medianLow = []
     medianHigh = []
+    medianSha = []
     
     for data in dataInFolder:
         medianSliced = []
@@ -100,9 +103,11 @@ for dataInFolder in dataInFolders:
         
         medianLow.append(median4Low)
         medianHigh.append(median4High)
+        medianSha.append(data)
     
     resultsMedianLow.append(medianLow)
     resultsMedianHigh.append(medianHigh)
+    resultsMedian.append(medianSha)
 
 # Plotting
 
