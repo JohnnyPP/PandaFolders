@@ -76,7 +76,7 @@ medianLow = []
 medianSha = []
 resultsMedianLow = []
 resultsMedianHigh = []
-resultsMedian = []
+resultsMedianSha = []
 
 for dataInFolder in dataInFolders:
     medianLow = []
@@ -107,7 +107,7 @@ for dataInFolder in dataInFolders:
     
     resultsMedianLow.append(medianLow)
     resultsMedianHigh.append(medianHigh)
-    resultsMedian.append(medianSha)
+    resultsMedianSha.append(medianSha)
 
 # Plotting
 
